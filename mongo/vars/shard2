@@ -1,0 +1,5 @@
+---
+ port: 27018
+ replication: "replSetName: sha2"
+ sharding: "clusterRole: shardsvr"
+

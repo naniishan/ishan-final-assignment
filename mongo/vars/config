@@ -1,0 +1,5 @@
+---
+ port: 27019
+ replication: "replSetName: crs"
+ sharding: "clusterRole: configsvr"
+

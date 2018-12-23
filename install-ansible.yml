@@ -1,9 +1,11 @@
 ---
- - hosts: webserver
+ - hosts: all
    become: yes
    gather_facts: false
    tasks:
    
+
+
    - name: install ansible 
      raw: apt-get update && apt-get install ansible -y
 

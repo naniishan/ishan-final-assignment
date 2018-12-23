@@ -1,2 +1,5 @@
 ---
 # defaults file for mongo
+ port: null
+ replication: null
+ clusterRole: null
