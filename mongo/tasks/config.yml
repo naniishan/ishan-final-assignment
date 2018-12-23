@@ -10,6 +10,4 @@
  - name: start the mongod service
    command: mongod --config /etc/mongod.conf --logpath /var/log/mongodb.log --fork
 
- - name: print the status
-   debug: msg={{ conf }}
  

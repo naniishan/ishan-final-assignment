@@ -27,3 +27,7 @@
  - name: to create a config server
    include: config.yml
    when: "'config' in group_names"
+
+ - name: start the mongod-service
+   command: mongod --config /etc/mongod.conf --logpath /var/log/mongodb/mongod.log --fork
+
