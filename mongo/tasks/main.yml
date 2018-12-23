@@ -1,0 +1,19 @@
+---
+ - name: install ansible 
+   raw: apt-get update && apt-get install ansible -y
+
+ - name: install mongo in ubuntu
+   include: ubuntu.yml
+   when: ansible_distribution == "Ubuntu"
+
+ - name: install mongo in CENtos
+   include: amazon.yml
+   when: ansible_distribution == "Amazon"
+
+ - name: create a folder for data
+   file: path=/data state=directory owner=mongodb group=mongodb 
+
+ - name: create a sub folder
+   file: path=/data/db state=directory owner=mongodb group=mongodb
+
+ 

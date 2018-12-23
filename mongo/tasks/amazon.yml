@@ -1,0 +1,9 @@
+---
+ - name: create a repo for mongom package
+   copy: src=mongodb-org.repo dest=/etc/yum.repos.d/mongodb-org.repo
+
+ - name: install the package
+   yum: name=mongodb-org state=present update_cache=yes
+
+ - name: restart the service
+   service: name=mongod state=restarted
