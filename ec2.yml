@@ -48,7 +48,7 @@
       - name: add IPs to the group_vars file
         lineinfile:
            dest: /etc/ansible/group_vars/config
-           line: ' cnf{{ item.ami_launch_index }}: {{ item.private_ip }}'
+           line: ' cnf_{{ item.ami_launch_index }}: {{ item.private_ip }}'
            state: present 
         with_items: "{{ ec2a.instances }}"
 
@@ -102,7 +102,7 @@
       - name: add IPs to the group_vars file
         lineinfile:
            dest: /etc/ansible/group_vars/shard1
-           line: ' sha1.{{ item.ami_launch_index }}: {{ item.private_ip }}'
+           line: ' sha1_{{ item.ami_launch_index }}: {{ item.private_ip }}'
            state: present
         with_items: "{{ ec2b.instances }}"
  
@@ -137,6 +137,6 @@
       - name: add IPs to the group_vars file
         lineinfile:
            dest: /etc/ansible/group_vars/shard2
-           line: ' sha2.{{ item.ami_launch_index }}: {{ item.private_ip }}'
+           line: ' sha2_{{ item.ami_launch_index }}: {{ item.private_ip }}'
            state: present
         with_items: "{{ ec2c.instances }}"

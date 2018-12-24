@@ -26,6 +26,3 @@
    include: config.yml
    when: "'config' in group_names"
 
- - name: run the initilization command
-   command: mongod --config /etc/mongod.conf --fork
-

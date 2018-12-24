@@ -5,3 +5,15 @@
 
  - name: create a template
    template: src=mongod.j2 dest=/etc/mongod.conf owner=root group=root
+
+ - name: send the script
+   template: src=script-s2.j2 dest=/home/ubuntu/script.sh mode=555 
+   when: "'{{ sha2_0 }}' in inventory_hostname"
+
+ - name: run the initilization command
+   command: mongod --config /etc/mongod.conf --fork
+
+ - name: run the script
+   command: sh /home/ubuntu/script.sh
+   when: "'{{ sha2_0 }}' in inventory_hostname"
+

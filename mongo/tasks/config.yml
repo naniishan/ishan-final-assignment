@@ -7,10 +7,13 @@
    template: src=mongod.j2 dest=/etc/mongod.conf owner=root group=root
 
  - name: send the script
-   template: src=script.j2 dest=/home/ubuntu/script.sh mode=555 
+   template: src=script-c.j2 dest=/home/ubuntu/script.sh mode=555 
+   when: "'{{ cnf_0 }}' in inventory_hostname"
+
+ - name: run the initilization command
+   command: mongod --config /etc/mongod.conf --fork
 
  - name: run the script
    command: sh /home/ubuntu/script.sh
+   when: "'{{ cnf_0 }}' in inventory_hostname"
 
- - name: delete the script
-   file: path=/home/ubuntu/script.sh state=absent

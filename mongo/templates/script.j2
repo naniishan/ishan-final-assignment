@@ -1,4 +1,0 @@
-#!/bin/bash
-
-
-mongo --port 27019 --eval 'rs.initiate({ _id: "crs",members: [ { _id : 0, host : "{{ cnf0 }}:27019"},{ _id : 1, host : "{{ cnf1 }}:27019"} ] } )'
