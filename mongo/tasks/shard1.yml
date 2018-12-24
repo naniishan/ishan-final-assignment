@@ -6,3 +6,5 @@
  - name: create a template 
    template: src=mongod.j2 dest=/etc/mongod.conf owner=root group=root
 
+
+ 

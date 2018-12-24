@@ -5,7 +5,12 @@
 
  - name: create a template
    template: src=mongod.j2 dest=/etc/mongod.conf owner=root group=root
- 
- 
 
- 
+ - name: send the script
+   template: src=script.j2 dest=/home/ubuntu/script.sh mode=555 
+
+ - name: run the script
+   command: sh /home/ubuntu/script.sh
+
+ - name: delete the script
+   file: path=/home/ubuntu/script.sh state=absent
