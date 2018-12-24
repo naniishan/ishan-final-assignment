@@ -8,8 +8,6 @@
  - name: install package
    apt: name=mongodb-org update_cache=true state=present
 
- - name: create a service for mongo
-   template: src=mongodb.j2 dest=/etc/systemd/system/mongodb.service owner=root group=root
+# - name: create a service for mongo
+#   template: src=mongodb.j2 dest=/etc/systemd/system/mongodb.service owner=root group=root
 
- - name: restart the service
-   service: name=mongod state=restarted

@@ -7,7 +7,5 @@
    template: src=mongod.j2 dest=/etc/mongod.conf owner=root group=root
  
  
- - name: start the mongod service
-   command: mongod --config /etc/mongod.conf --logpath /var/log/mongodb.log --fork
 
  

@@ -1,6 +1,4 @@
 ---
- - name: install ansible 
-   raw: apt-get update && apt-get install ansible -y
 
  - name: install mongo in ubuntu
    include: ubuntu.yml
@@ -28,6 +26,4 @@
    include: config.yml
    when: "'config' in group_names"
 
- - name: start the mongod-service
-   command: mongod --config /etc/mongod.conf --logpath /var/log/mongodb/mongod.log --fork
 
