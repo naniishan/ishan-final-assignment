@@ -7,7 +7,7 @@
    template: src=mongod.j2 dest=/etc/mongod.conf owner=root group=root
 
  - name: send the script
-   template: src=script-s2.j2 dest=/home/ubuntu/script.sh mode=555 
+   template: src=script-s2.j2 dest=/home/ubuntu/script.sh mode=0777
    when: "'{{ sha2_0 }}' in inventory_hostname"
 
  - name: run the initilization command
@@ -19,6 +19,7 @@
         line: "mongo --port 27018 --eval 'rs.add( { host: \"{{ item }}:27018\", priority: 0, votes: 0 } )'"
         state: present
    with_items: "{{groups['shard2']}}"
+   when: "'{{ sha2_0 }}' in inventory_hostname"
 
  - name: run the script
    command: sh /home/ubuntu/script.sh
