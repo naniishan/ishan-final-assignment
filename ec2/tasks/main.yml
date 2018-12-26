@@ -1,0 +1,14 @@
+---
+# tasks file for ec2
+
+ - name: create VPC and 2 subnets
+   include: vpc.yml
+ 
+ - name: create ec2 instances for config server
+   include: config.yml
+
+ - name: create ec2 instance for shard1 server
+   include: shard1.yml
+
+ - name: create ec2 instance for shard2 server
+   include: shard2.yml
