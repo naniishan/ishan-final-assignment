@@ -1,24 +1,24 @@
 ---
-  - name: creata vpc and subnet
-    ec2_vpc:
-      state: present
-      cidr_block: 10.0.0.0/24
-      resource_tags: { "Environment":"Development" }
-      subnets:
-          - cidr: 10.0.0.0/26
-            az: ap-south-1a
+    - name: creata vpc and subnet
+      ec2_vpc:
+       state: present
+       cidr_block: "{{ vpc }}"
+       resource_tags: { "Environment":"Development" }
+       subnets:
+          - cidr: "{{ subnetA }}"
+            az: "{{ region }}a"
             resource_tags: { "Environment":"ishan b" }
-          - cidr: 10.0.0.64/26
-            az: ap-south-1b
+          - cidr: "{{ subnetB }}"
+            az: "{{ region }}b"
             resource_tags: { "Environment":"ishan a" }
-      internet_gateway: True
-      route_tables:
+       internet_gateway: True
+       route_tables:
           - subnets:
-              - 10.0.0.0/26
-              - 10.0.0.64/26
+              - "{{ subnetA }}"
+              - "{{ subnetB }}"
             routes:
               - dest: 0.0.0.0/0
                 gw: igw
-      region: ap-south-1
-    register: vpc
+       region: "{{ region }}"
+      register: vpc
 
