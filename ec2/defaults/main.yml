@@ -1,6 +1,6 @@
 ---
 # defaults file for ec2
 
- config: 3
- shard1: 3
- shard2: 3
+ config: 2
+ shard1: 2
+ shard2: 2
