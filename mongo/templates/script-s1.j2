@@ -1,4 +1,2 @@
 #!/bin/bash
-
-
 mongo --port 27018 --eval 'rs.initiate({ _id: "sha1",members: [ { _id : 0, host : "{{ sha1_0 }}:27018"} ] } )'

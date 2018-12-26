@@ -13,6 +13,13 @@
  - name: run the initilization command
    command: mongod --config /etc/mongod.conf --fork
 
+ - name: add the replica sets in the file script.sh
+   lineinfile:
+        dest: /home/ubuntu/script.sh
+        line: "mongo --port 27018 --eval 'rs.add( { host: \"{{ item }}:27018\", priority: 0, votes: 0 } )'"
+        state: present
+   with_items: "{{groups['shard2']}}"
+
  - name: run the script
    command: sh /home/ubuntu/script.sh
    when: "'{{ sha2_0 }}' in inventory_hostname"
@@ -21,22 +28,3 @@
    file: path=/home/ubuntu/script.sh state=absent
    when: "'{{ sha2_0 }}' in inventory_hostname"
 
- - name: send the replica set script
-   copy: src=rs.sh dest=/home/ubuntu/ mode=0777
-   when: "'{{ sha2_0 }}' in inventory_hostname"
-
- - name: add the replica sets in the file rs.sh
-   lineinfile:
-        dest: /home/ubuntu/rs.sh
-        line: "mongo --port 27018 --eval 'rs.add( { host: \"{{ item }}:27018\", priority: 0, votes: 0 } )'"
-        state: present
-   with_items: "{{groups['shard2']}}"
-   when: "'{{ sha2_0 }}' in inventory_hostname"
-
- - name: run the script
-   command: sh /home/ubuntu/rs.sh
-   when: "'{{ sha2_0 }}' in inventory_hostname"
-
- - name: delete the script
-   file: path=/home/ubuntu/rs.sh state=absent
-   when: "'{{ sha2_0 }}' in inventory_hostname"
