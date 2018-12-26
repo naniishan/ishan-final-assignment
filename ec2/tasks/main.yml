@@ -5,7 +5,7 @@
    include: vpc.yml
  
  - name: create ec2 instances for config server
-   include: config.yml
+   include: config-server.yml
 
  - name: create ec2 instance for shard1 server
    include: shard1.yml

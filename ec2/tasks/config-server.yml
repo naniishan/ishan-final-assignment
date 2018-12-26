@@ -6,7 +6,7 @@
                       image=ami-04ea996e7a3e7ad6b
                       region=ap-south-1	
                       keypair=ishan-assignment
-                      count=2
+                      count="{{ config }}"
         register: ec2a
 
       - name: check the
