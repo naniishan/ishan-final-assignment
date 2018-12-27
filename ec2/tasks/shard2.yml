@@ -6,9 +6,13 @@
                       image="{{ image }}"
                       region="{{ region }}"
                       wait=yes	
-                      keypair=arima
-                      count="{{ shard2 }}"
+                      keypair=ishan-assignment
+                      vpc_subnet_id="{{ item }}"
+                      count=1
         register: ec2c
+        with_items:
+        - "{{ subnet_id_B }}"
+        - "{{ subnet_id_A }}"
 
       - name: Add tag to Instance(s)
         local_action: ec2_tag resource={{ item.id }} region="{{ region }}" state=present

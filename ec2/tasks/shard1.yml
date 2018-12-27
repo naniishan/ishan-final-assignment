@@ -6,9 +6,13 @@
                       image="{{ image }}"
                       region="{{ region }}"
                       wait=yes	
-                      keypair=arima
-                      count="{{ shard1 }}"
+                      keypair=ishan-assignment
+                      vpc_subnet_id="{{ item }}"
+                      count=1
         register: ec2b
+        with_items:
+        - "{{ subnet_id_B }}"
+        - "{{ subnet_id_A }}"
 
 
 

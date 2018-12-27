@@ -1,4 +1,4 @@
----
+---    
     - name: creata vpc and subnet
       ec2_vpc:
        state: present
@@ -8,17 +8,53 @@
           - cidr: "{{ subnetA }}"
             az: "{{ region }}a"
             resource_tags: { "Environment":"ishan b" }
-          - cidr: "{{ subnetB }}"
-            az: "{{ region }}b"
-            resource_tags: { "Environment":"ishan a" }
        internet_gateway: True
        route_tables:
           - subnets:
               - "{{ subnetA }}"
+            routes:
+              - dest: 0.0.0.0/0
+                gw: igw
+       region: "{{ region }}"
+      register: vpca
+
+
+    - name: Find the first public subnet
+      set_fact: subnet_id_A="{{ item.id }}"
+      with_items: vpca.subnets
+
+
+
+    - name: creata vpc and subnet
+      ec2_vpc:
+       state: present
+       cidr_block: "{{ vpc }}"
+       resource_tags: { "Environment":"Development" }
+       subnets:
+          - cidr: "{{ subnetB }}"
+            az: "{{ region }}b"
+            resource_tags: { "Environment":"ishan b" }
+       internet_gateway: True
+       route_tables:
+          - subnets:
               - "{{ subnetB }}"
             routes:
               - dest: 0.0.0.0/0
                 gw: igw
        region: "{{ region }}"
-      register: vpc
+      register: vpcb
+
+
+    - name: Find the first public subnet
+      set_fact: subnet_id_B="{{ item.id }}"
+      with_items: vpcb.subnets
+
+
+    - name: include files
+      debug: msg={{ item }}
+      with_items:
+      - "{{ subnet_id_A }}"
+      - "{{ subnet_id_B }}"
+
+
 

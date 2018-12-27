@@ -1,6 +1,8 @@
 ---
 # defaults file for ec2
-
- configc: 2
- shard1: 2
- shard2: 2
+ vpc: 10.0.0.0/24
+ subnetA: 10.0.0.0/26
+ subnetB: 10.0.0.64/26
+ region: ap-south-1	
+ image: ami-04ea996e7a3e7ad6b
+ type: t2.micro
