@@ -11,6 +11,14 @@
         register: ec2b
 
 
+
+
+      - name: create a config section in host file
+        lineinfile: 
+          dest: /etc/ansible/hosts
+          line: '[shard1]'
+          state: present
+
       - name: Add tag to Instance(s)
         local_action: ec2_tag resource={{ item.id }} region="{{ region }}" state=present
         with_items: "{{ ec2b.instances }}"

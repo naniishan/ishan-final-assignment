@@ -11,6 +11,13 @@
         register: ec2m
 
 
+
+      - name: create a config section in host file
+        lineinfile: 
+          dest: /etc/ansible/hosts
+          line: '[mongos]'
+          state: present
+
       - name: add IPs to the group_vars file
         lineinfile:
            dest: /etc/ansible/group_vars/mongos

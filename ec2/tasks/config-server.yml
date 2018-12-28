@@ -10,8 +10,12 @@
                       count=2
         register: ec2a
 
-      - name: print the details
-        debug: msg={{ ec2a }}
+      - name: create a config section in host file
+        lineinfile: 
+          dest: /etc/ansible/hosts
+          line: '[config]'
+          state: present
+
 
       - name: add IPs to the group_vars file
         lineinfile:

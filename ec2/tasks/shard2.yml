@@ -9,6 +9,12 @@
                       keypair=ishan-assignment
                       count=2
         register: ec2c
+       
+      - name: create a config section in host file
+        lineinfile: 
+          dest: /etc/ansible/hosts
+          line: '[shard2]'
+          state: present
 
       - name: Add tag to Instance(s)
         local_action: ec2_tag resource={{ item.id }} region="{{ region }}" state=present
