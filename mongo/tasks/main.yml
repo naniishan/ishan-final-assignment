@@ -14,6 +14,16 @@
  - name: create a sub folder
    file: path=/data/db state=directory owner=mongodb group=mongodb
 
+ - name: to create a config server
+   include: config.yml
+   when: "'config' in group_names"
+  
+ - name: to create a mongos server
+   include: mongos.yml
+   when: "'mongos' in group_names"
+
+  
+
  - name: to set up shard1 cluster
    include: shard1.yml
    when: "'shard1' in group_names" 
@@ -21,8 +31,4 @@
  - name: to set up shard2 cluster
    include: shard2.yml 
    when: "'shard2' in group_names"
-
- - name: to create a config server
-   include: config.yml
-   when: "'config' in group_names"
 

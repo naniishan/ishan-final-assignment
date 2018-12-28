@@ -12,6 +12,7 @@
 
  - name: run the initilization command
    command: mongod --config /etc/mongod.conf --fork
+   ignore_errors: yes
 
  - name: add the replica sets in the file script.sh
    lineinfile:

@@ -7,12 +7,8 @@
                       region="{{ region }}"
                       wait=yes	
                       keypair=ishan-assignment
-                      vpc_subnet_id="{{ item }}"
-                      count=1
+                      count=2
         register: ec2c
-        with_items:
-        - "{{ subnet_id_B }}"
-        - "{{ subnet_id_A }}"
 
       - name: Add tag to Instance(s)
         local_action: ec2_tag resource={{ item.id }} region="{{ region }}" state=present
@@ -34,6 +30,15 @@
            line: ' sha2_{{ item.ami_launch_index }}: {{ item.private_ip }}'
            state: present
         with_items: "{{ ec2c.instances }}"
+
+
+      - name: add IPs to the group_vars file
+        lineinfile:
+           dest: /etc/ansible/group_vars/mongos
+           line: ' sha2_{{ item.ami_launch_index }}: {{ item.private_ip }}'
+           state: present
+        with_items: "{{ ec2c.instances }}"
+
 
       - name: Waiting for the instance to come
         local_action: wait_for

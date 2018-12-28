@@ -1,0 +1,37 @@
+---
+ - name: send the script
+   copy: src=files/mongod.conf dest=/etc/mongod.conf owner=root group=root mode=0644
+
+
+ - name: insert the line
+   lineinfile:
+       dest: /etc/mongod.conf
+       line: " configDB: crs/{{ cnf_1 }}:27019,{{ cnf_0 }}:27019"
+       insertafter: sharding
+       state: present
+
+ - name: run the initilization command
+   command: mongos --config /etc/mongod.conf --fork
+   ignore_errors: yes
+
+ - name: send the script to the server
+   copy: src=files/mongos.sh dest=/home/ubuntu/mongos.sh mode=0777
+
+ - name: insert the line for shard adding
+   lineinfile:
+     dest: /home/ubuntu/mongos.sh
+     line: " mongo --port 27017 --eval 'sh.addShard(\"sha1/{{ sha1_0 }}:27018,{{ sha1_1 }}:27018\")' "
+     state: present
+
+ - name: insert the line for shard adding
+   lineinfile:
+     dest: /home/ubuntu/mongos.sh
+     line: " mongo --port 27017 --eval 'sh.addShard(\"sha2/{{ sha2_0 }}:27018,{{ sha2_1 }}:27018\")' "
+     state: present     
+
+ - name: run the script
+   command: sh /home/ubuntu/mongos.sh
+
+ - name: delete the script
+   file: path=/home/ubuntu/mongos.sh state=absent
+
