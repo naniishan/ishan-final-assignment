@@ -18,9 +18,6 @@
    include: config.yml
    when: "'config' in group_names"
   
- - name: to create a mongos server
-   include: mongos.yml
-   when: "'mongos' in group_names"
 
   
 
@@ -32,3 +29,7 @@
    include: shard2.yml 
    when: "'shard2' in group_names"
 
+
+ - name: to create a mongos server
+   include: mongos.yml
+   when: "'mongos' in group_names"
