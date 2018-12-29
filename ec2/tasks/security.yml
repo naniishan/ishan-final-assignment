@@ -1,0 +1,27 @@
+---
+
+   - name: Create security group
+     ec2_group:
+       name: "{{ group_name }}"
+       description: "{{ group_name }} is security group"
+       region: "{{ region }}"
+       rules:
+       - proto: tcp  
+         from_port: 27017
+         to_port: 27017
+         cidr_ip: 0.0.0.0/0
+       - proto: tcp
+         from_port: 27018 
+         to_port: 27018
+         cidr_ip: 0.0.0.0/0
+       - proto: tcp  
+         from_port: 27019
+         to_port: 27019
+         cidr_ip: 0.0.0.0/0
+       - proto: tcp
+         from_port: 22
+         to_port: 22
+         cidr_ip: 0.0.0.0/0
+       rules_egress:
+       - proto: all
+         cidr_ip: 0.0.0.0/0

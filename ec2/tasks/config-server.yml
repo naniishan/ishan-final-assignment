@@ -1,12 +1,19 @@
 ---
+      - debug: msg="{{ subnet_A }}"
+      
+      - debug: msg="{{ subnet_B }}"      
+
+
+
+
       - name: Launch the new EC2 Instance
         local_action: ec2 
-                      group=ishan-assignment 
+                      group="{{ group_name }}" 
                       instance_type="{{ type }}"
                       image="{{ image }}"
-                      region="{{ region }}"
+                      region="ap-south-1"
                       wait=yes	
-                      keypair=ishan-assignment
+                      keypair="{{ key_name }}"
                       count=2
         register: ec2a
 

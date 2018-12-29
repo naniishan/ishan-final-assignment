@@ -1,60 +1,58 @@
----    
-    - name: creata vpc and subnet
-      ec2_vpc:
-       state: present
-       cidr_block: "{{ vpc }}"
-       resource_tags: { "Environment":"Development" }
-       subnets:
-          - cidr: "{{ subnetA }}"
-            az: "{{ region }}a"
-            resource_tags: { "Environment":"ishan b" }
-       internet_gateway: True
-       route_tables:
-          - subnets:
-              - "{{ subnetA }}"
-            routes:
-              - dest: 0.0.0.0/0
-                gw: igw
-       region: "{{ region }}"
-      register: vpca
+---
+      - name: Create VPC
+        ec2_vpc_net:
+          name: ishan-sample
+          cidr_block: "{{ vpc }}"
+          region: "{{ region }}"
+          state: "present"
+        register: my_vpc
 
-
-    - name: Find the first public subnet
-      set_fact: subnet_id_A="{{ item.id }}"
-      with_items: vpca.subnets
+      - debug: msg="{{ my_vpc.vpc.id }}"
 
 
 
-    - name: creata vpc and subnet
-      ec2_vpc:
-       state: present
-       cidr_block: "{{ vpc }}"
-       resource_tags: { "Environment":"Development" }
-       subnets:
-          - cidr: "{{ subnetB }}"
-            az: "{{ region }}b"
-            resource_tags: { "Environment":"ishan b" }
-       internet_gateway: True
-       route_tables:
-          - subnets:
-              - "{{ subnetB }}"
-            routes:
-              - dest: 0.0.0.0/0
-                gw: igw
-       region: "{{ region }}"
-      register: vpcb
-
-
-    - name: Find the first public subnet
-      set_fact: subnet_id_B="{{ item.id }}"
-      with_items: vpcb.subnets
-
-
-    - name: include files
-      debug: msg={{ item }}
-      with_items:
-      - "{{ subnet_id_A }}"
-      - "{{ subnet_id_B }}"
+      - name: associate subnet to the VPC
+        ec2_vpc_subnet:
+         state: present
+         vpc_id: "{{ my_vpc.vpc.id }}"
+         region: "{{ region }}"
+         az: "{{ region }}a"
+         cidr: "{{ subnetA }}"
+         resource_tags:
+           Name: ishanji
+        register: subneta
 
 
 
+      - set_fact: 
+           subnet_A: "{{ subneta.subnet.id }}"
+ 
+
+      - name: associate subnet to the VPC
+        ec2_vpc_subnet:
+         state: present
+         vpc_id: "{{ my_vpc.vpc.id }}"
+         az: "{{ region }}b"
+         region: "{{ region }}"
+         cidr: "{{ subnetB }}"
+         resource_tags:
+           Name: ishanjinani
+        register: subnetb
+
+
+      - set_fact:
+          subnet_B: "{{ subnetb.subnet.id }}"
+
+    
+      - name: create ec2 instances for config server
+        include: config-server.yml
+
+      - name: create ec2 instance for mongos server
+        include: mongos.yml
+
+      - name: create ec2 instance for shard1 server
+        include: shard1.yml
+
+      - name: create ec2 instance for shard2 server
+        include: shard2.yml
+ 

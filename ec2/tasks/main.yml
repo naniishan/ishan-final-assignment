@@ -1,18 +1,13 @@
 ---
 # tasks file for ec2
 
- - name: create VPC and 2 subnets
+ - name: create keys
+   include: keys.yml
+  
+ - name: create the security group
+   include: security.yml
+
+ - name: create the VPC, subnets and the ec2 instances
    include: vpc.yml
  
- - name: create ec2 instances for config server
-   include: config-server.yml
-
- - name: create ec2 instance for mongos server
-   include: mongos.yml
-
- - name: create ec2 instance for shard1 server
-   include: shard1.yml
-
- - name: create ec2 instance for shard2 server
-   include: shard2.yml
 

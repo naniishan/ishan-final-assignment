@@ -1,12 +1,12 @@
 ---
       - name: Launch the new EC2 Instanc
         local_action: ec2 
-                      group=ishan-assignment 
+                      group="{{ group_name }}"
                       instance_type="{{ type }}"
                       image="{{ image }}"
                       region="{{ region }}"
-                      wait=yes	
-                      keypair=ishan-assignment
+                      wait=yes
+                      keypair="{{ key_name }}"
                       count=2
         register: ec2c
        
