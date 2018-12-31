@@ -2,7 +2,7 @@
       - name: Create a new EC2 key
         ec2_key:
             name: "{{ key_name }}"
-            region: ap-south-1
+            region: "{{ region }}"
         register: ec2_key
 
       - name: create the .pem keys

@@ -11,7 +11,7 @@
                       group="{{ group_name }}" 
                       instance_type="{{ type }}"
                       image="{{ image }}"
-                      region="ap-south-1"
+                      region="{{ region }}"
                       wait=yes	
                       keypair="{{ key_name }}"
                       count=2
