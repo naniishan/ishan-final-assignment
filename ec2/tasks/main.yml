@@ -1,6 +1,33 @@
 ---
 # tasks file for ec2
 
+ 
+ - name: create keys directory
+   file: path=/etc/ansible/keys state=directory 
+
+ - name: create group_vars directory
+   file: path=/etc/ansible/group_vars state=directory
+
+ - name: create file in group_vars
+   file: path=/etc/ansible/group_vars/{{ item }} state=touch
+   with_items:
+   - shard1
+   - shard2
+   - config
+   - mongos
+
+ - name: add line to the file
+   lineinfile:
+     dest: /etc/ansible/group_vars/{{ item }}
+     line: ---
+     state: present
+   with_items:
+     - shard1
+     - shard2
+     - config
+     - mongos
+
+
  - name: create keys
    include: keys.yml
   
@@ -10,4 +37,3 @@
  - name: create the VPC, subnets and the ec2 instances
    include: vpc.yml
  
-
