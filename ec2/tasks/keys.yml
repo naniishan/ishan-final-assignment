@@ -4,6 +4,7 @@
             name: "{{ key_name }}"
             region: "{{ region }}"
         register: ec2_key
+        ignore_errors: yes
 
       - name: create the .pem keys
         copy: content={{ ec2_key.key.private_key }} dest=/etc/ansible/keys/{{ key_name }}.pem mode=0400

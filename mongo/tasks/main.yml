@@ -33,3 +33,7 @@
  - name: to create a mongos server
    include: mongos.yml
    when: "'mongos' in group_names"
+
+ - name: install s3cmd
+   include: s3cmd.yml    
+   when: "'mongos' in group_names"

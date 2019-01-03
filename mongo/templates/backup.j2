@@ -1,0 +1,16 @@
+#!/bin/bash
+ 
+ 
+ 
+TIMESTAMP=`date +%F-%H%M`
+ 
+mongodump --port 27017 
+ 
+mv dump mongodb-$TIMESTAMP
+
+tar cf mongodb-$TIMESTAMP.tar mongodb-$TIMESTAMP
+ 
+s3cmd put mongodb-$TIMESTAMP.tar s3://{{ bucket_name }}/mongodb-$TIMESTAMP.tar
+ 
+rm -rf mongodb-*
+

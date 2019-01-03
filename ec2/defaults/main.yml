@@ -6,5 +6,5 @@
  region: ap-south-1	
  image: ami-04ea996e7a3e7ad6b
  type: t2.micro
- key_name: ishan-assignment
+ key_name: sample
  group_name: ishan-final

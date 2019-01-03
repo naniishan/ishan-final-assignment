@@ -1,0 +1,22 @@
+---
+ - name: add keys
+   shell: wget -O- -q http://s3tools.org/repo/deb-all/stable/s3tools.key | apt-key add -
+
+ - name: keys
+   shell: wget -O/etc/apt/sources.list.d/s3tools.list http://s3tools.org/repo/deb-all/stable/s3tools.list
+
+ - name: install s3cmd
+   apt: name=s3cmd state=present update_cache=yes
+
+ - name: send the backup script
+   template: src=backup.j2 dest=/home/ubuntu/backup.sh mode=0555
+
+ - name: set the cron for the backup job
+   cron:
+    name: auto backup
+    user: ubuntu
+    job: /home/ubuntu/backup.sh
+
+ 
+
+

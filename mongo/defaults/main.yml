@@ -3,3 +3,4 @@
  port: null
  replication: null
  clusterRole: null
+ bucket_name: mongo-cluster-backup
