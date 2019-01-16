@@ -19,7 +19,7 @@
          az: "{{ region }}a"
          cidr: "{{ subnetA }}"
          resource_tags:
-           Name: ishanji
+           Name: Subnet A
         register: subneta
 
 
@@ -36,7 +36,7 @@
          region: "{{ region }}"
          cidr: "{{ subnetB }}"
          resource_tags:
-           Name: ishanjinani
+           Name: Subnet B
         register: subnetb
 
 

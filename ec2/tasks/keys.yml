@@ -3,12 +3,11 @@
         ec2_key:
             name: "{{ key_name }}"
             region: "{{ region }}"
-        register: ec2_key
-        ignore_errors: yes
+        register: ec2_key_result
 
-      - name: create the .pem keys
-        copy: content={{ ec2_key.key.private_key }} dest=/etc/ansible/keys/{{ key_name }}.pem mode=0400
-        ignore_errors: yes
+      - name: Save private key
+        copy: content="{{ ec2_key_result.key.private_key }}" dest="/etc/ansible/keys/{{ key_name }}.pem" mode=0400
+        when: ec2_key_result.changed
 
 
       - name: send the private keys to the group_vars
@@ -16,8 +15,9 @@
              dest: /etc/ansible/group_vars/{{ item }}
              line: " ansible_ssh_private_key_file: /etc/ansible/keys/{{ key_name }}.pem"
              state: present
-        with_items: 
+        with_items:
              - config
              - shard1
              - shard2
              - mongos
+

@@ -5,11 +5,11 @@
    tasks:
    
 
-   - name: sleep for 20 seconds and continue with play
-     wait_for: timeout=20
+   - name: sleep for 10 seconds and continue with play
+     wait_for: timeout=10
      delegate_to: localhost
 
-   - name: install ansible 
+   - name: install python on hosts to run ansible
      raw: apt-get update && apt-get install ansible -y 
 
    - name: Set authorized key taken from file
@@ -17,4 +17,4 @@
        user: ubuntu
        state: present
        key: "{{ lookup('file', '/home/ubuntu/.ssh/id_rsa.pub') }}"
-
+     ignore_errors: yes

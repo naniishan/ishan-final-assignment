@@ -25,3 +25,4 @@
        rules_egress:
        - proto: all
          cidr_ip: 0.0.0.0/0
+     ignore_errors: yes
