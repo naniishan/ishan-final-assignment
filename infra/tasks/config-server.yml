@@ -1,45 +1,55 @@
 ---
+
+
+
+
       - name: Launch the new EC2 Instance
         local_action: ec2 
-                      group="{{ group_name }}" 
-                      instance_type="{{ type }}"
+                      group="{{ group_name }}-27019" 
+                      instance_type="{{ config_type }}"
                       image="{{ image }}"
                       region="{{ region }}"
                       wait=yes	
                       keypair="{{ key_name }}"
-                      count=1
-        register: ec2m
-
-
+                      count="{{ config_count }}"
+        register: ec2a
 
       - name: create a config section in host file
         lineinfile: 
           dest: /etc/ansible/hosts
-          line: '[mongos]'
+          line: '[config]'
           state: present
+
+
+      - name: add IPs to the group_vars file
+        lineinfile:
+           dest: /etc/ansible/group_vars/config
+           line: ' cnf_{{ item.ami_launch_index }}: {{ item.private_ip }}'
+           state: present 
+        with_items: "{{ ec2a.instances }}"
 
       - name: add IPs to the group_vars file
         lineinfile:
            dest: /etc/ansible/group_vars/mongos
-           line: ' mgs_{{ item.ami_launch_index }}: {{ item.private_ip }}'
+           line: ' cnf_{{ item.ami_launch_index }}: {{ item.private_ip }}'
            state: present 
-        with_items: "{{ ec2m.instances }}"
+        with_items: "{{ ec2a.instances }}"
 
       - name: Add private IP's to the host file
         lineinfile:
           dest: /etc/ansible/hosts
           line: "{{ item.private_ip }}"
-          insertafter: '\[mongos\]'
+          insertafter: '\[config\]'
           state: present
-        with_items: "{{ ec2m.instances }}"
+        with_items: "{{ ec2a.instances }}"
 
       - name: Add tag to Instance(s)
         local_action: ec2_tag resource={{ item.id }} region="{{ region }}" state=present
-        with_items: "{{ ec2m.instances }}"
+        with_items: "{{ ec2a.instances }}"
         args:
           tags:
-            Name: mongos
-        register: ec2m
+            Name: config
+        register: ec2a
 
 
       - name: Wait for SSH to come up
@@ -47,4 +57,4 @@
                 host={{ item.public_ip }} 
                 port=22 
                 state=started
-        with_items: ec2m.instances
+        with_items: ec2a.instances

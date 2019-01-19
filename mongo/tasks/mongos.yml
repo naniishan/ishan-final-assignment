@@ -20,13 +20,13 @@
  - name: insert the line for shard adding
    lineinfile:
      dest: /home/ubuntu/mongos.sh
-     line: " mongo --port 27017 --eval 'sh.addShard(\"sha1/{{ sha1_0 }}:27018,{{ sha1_1 }}:27018\")' "
+     line: " mongo --port 27017 --eval 'sh.addShard(\"sha1/{{ sha1_0 }}:27018\")' "
      state: present
 
  - name: insert the line for shard adding
    lineinfile:
      dest: /home/ubuntu/mongos.sh
-     line: " mongo --port 27017 --eval 'sh.addShard(\"sha2/{{ sha2_0 }}:27018,{{ sha2_1 }}:27018\")' "
+     line: " mongo --port 27017 --eval 'sh.addShard(\"sha2/{{ sha2_0 }}:27018\")' "
      state: present     
 
  - name: run the script

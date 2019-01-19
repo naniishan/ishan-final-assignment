@@ -10,7 +10,6 @@
       - debug: msg="{{ my_vpc.vpc.id }}"
 
 
-
       - name: associate subnet to the VPC
         ec2_vpc_subnet:
          state: present
@@ -24,8 +23,7 @@
 
 
 
-      - set_fact: 
-           subnet_A: "{{ subneta.subnet.id }}"
+
  
 
       - name: associate subnet to the VPC
@@ -40,8 +38,6 @@
         register: subnetb
 
 
-      - set_fact:
-          subnet_B: "{{ subnetb.subnet.id }}"
 
     
       - name: create ec2 instances for config server
