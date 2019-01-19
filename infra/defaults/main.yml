@@ -10,7 +10,7 @@
  shard2_type: t2.micro
  config_type: t2.micro
  key_name: mongo
- group_name: ishan-final
+ group_name: mongo-security
  shard1_count: 2
  shard2_count: 3
  config_count: 2
